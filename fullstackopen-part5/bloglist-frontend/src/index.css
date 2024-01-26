@@ -1,0 +1,26 @@
+.notification {
+  color: grey;
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.notification.good {
+  color: green;
+}
+
+.notification.bad {
+  color: red;
+}
+
+.blog {
+  color: grey;
+  font-size: 15px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
