@@ -4,10 +4,13 @@ import blogService from '../services/blogs'
 import BlogForm from './BlogForm'
 import Blog from './Blog'
 import Togglable from './Togglable'
+import { setNotification } from '../reducers/notification'
+import { useDispatch } from 'react-redux'
 
-const Blogs = ({ setNotification, user }) => {
+const Blogs = ({ user }) => {
   const [blogs, setBlogs] = useState([])
   const blogFormRef = useRef()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
@@ -21,10 +24,10 @@ const Blogs = ({ setNotification, user }) => {
     try {
       const response = await blogService.postBlog(newBlogObject)
       setBlogs(blogs.concat(response.data))
-      setNotification({ message: 'blog added', tone: 'good' })
+      dispatch(setNotification({ message: 'blog added', tone: 'good' }))
       blogFormRef.current.toggleVisibility()
     } catch (error) {
-      setNotification({ message: 'error creating blog', tone: 'bad' })
+      dispatch(setNotification({ message: 'error creating blog', tone: 'bad' }))
     }
   }
 
@@ -35,10 +38,10 @@ const Blogs = ({ setNotification, user }) => {
         prevBlogs.filter((blog) => blog.id !== blogToDelete.id)
       )
     } catch (error) {
-      setNotification({
+      dispatch(setNotification({
         message: error.response.data.error,
         tone: 'bad',
-      })
+      }))
     }
   }
 
@@ -51,10 +54,10 @@ const Blogs = ({ setNotification, user }) => {
         )
       )
     } catch (error) {
-      setNotification({
+      dispatch(setNotification({
         message: error.response.data.error,
         tone: 'bad',
-      })
+      }))
     }
   }
 
@@ -77,9 +80,6 @@ const Blogs = ({ setNotification, user }) => {
   )
 }
 
-Blogs.propTypes = {
-  setNotification: PropTypes.func.isRequired,
-}
 Blogs.displayName = 'Blogs'
 
 export default Blogs

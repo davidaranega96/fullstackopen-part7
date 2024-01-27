@@ -2,14 +2,17 @@ import { useState, useEffect, useRef } from 'react'
 import Blogs from './components/Blogs'
 import Login from './components/Login'
 import Notification from './components/Notification'
+import { clearNotification } from './reducers/notification'
+import { useSelector, useDispatch } from 'react-redux'
 
 const App = () => {
   const [user, setUser] = useState(null)
-  const [notification, setNotification] = useState({ message: '', tone: null })
+  const dispatch = useDispatch()
+  const notification = useSelector((state) => state)
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setNotification({ message: '', tone: null })
+      dispatch(clearNotification())
     }, 2000)
     return () => clearTimeout(timer)
   }, [notification])
@@ -23,12 +26,12 @@ const App = () => {
     <div>
       <Notification notification={notification} />
       <h2>blogs</h2>
-      {!user && <Login setNotification={setNotification} setUser={setUser} />}
+      {!user && <Login setUser={setUser} />}
       {user && (
         <div>
           logged in as {user.name}{' '}
           <button onClick={handleLogout}>logout</button>
-          <Blogs setNotification={setNotification} user={user} />
+          <Blogs user={user} />
         </div>
       )}
     </div>

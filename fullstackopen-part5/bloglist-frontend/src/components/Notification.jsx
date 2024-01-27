@@ -1,17 +1,18 @@
 import PropTypes from 'prop-types'
 
 const Notification = ({ notification }) => {
-  const { message, tone } = notification
-  const tone_style = `notification ${tone}`
-  if (message === '') {
+  if (!notification) {
     return null
   }
+
+  const { message, tone } = notification
+  const tone_style = `notification ${tone}`
 
   return <div className={tone_style}>{message}</div>
 }
 
 Notification.propTypes = {
-  notification: PropTypes.object.isRequired,
+  notification: PropTypes.object,
 }
 
 export default Notification
