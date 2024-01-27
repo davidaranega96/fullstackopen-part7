@@ -1,19 +1,12 @@
-import { useState, useRef, useEffect } from 'react'
-import blogService from '../services/blogs'
+import { useRef } from 'react'
 import BlogForm from './BlogForm'
 import Blog from './Blog'
 import Togglable from './Togglable'
-import { setBlogs } from '../reducers/blogs'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 const Blogs = () => {
   const blogs = useSelector((state) => state.blogs)
   const blogFormRef = useRef()
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    blogService.getAll().then((blogs) => dispatch(setBlogs(blogs)))
-  }, [])
 
   if (!blogs) {
     return null

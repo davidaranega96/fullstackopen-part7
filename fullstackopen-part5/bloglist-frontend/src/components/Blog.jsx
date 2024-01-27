@@ -39,7 +39,9 @@ const Blog = ({ blog }) => {
   }
 
   const DeleteButton = () => {
-    if (session.username !== blog.user.username) {
+    if (!session){
+      return null
+    } else if (session.username !== blog.user.username) {
       return null
     } else {
       return <button onClick={() => deleteBlogHadle(blog)}>delete</button>
