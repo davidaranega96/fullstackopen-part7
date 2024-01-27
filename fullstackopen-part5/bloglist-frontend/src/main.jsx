@@ -4,12 +4,14 @@ import './index.css'
 import { Provider } from 'react-redux'
 import notificationReducer from './reducers/notification'
 import blogsReducer from './reducers/blogs'
+import sessionReducer from './reducers/session'
 import { configureStore } from '@reduxjs/toolkit'
 
 const store = configureStore({
   reducer: {
     notification: notificationReducer,
-    blogs: blogsReducer
+    blogs: blogsReducer,
+    session: sessionReducer
   }
 })
 

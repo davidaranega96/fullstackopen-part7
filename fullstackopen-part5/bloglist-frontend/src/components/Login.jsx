@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
 import Togglable from './Togglable'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 import { setNotification } from '../reducers/notification'
 import { useDispatch } from 'react-redux'
+import { login } from '../reducers/session'
 
-const Login = ({ setUser }) => {
+const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const dispatch = useDispatch()
@@ -15,17 +15,16 @@ const Login = ({ setUser }) => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
+      dispatch(login(user))
       blogService.setToken(user.token)
     }
-  }, [setUser])
+  }, [])
 
   const handleLogin = async (event) => {
     event.preventDefault()
     const auth = await loginService.login({ username, password })
-    console.log(auth)
     if (auth) {
-      setUser(auth)
+      dispatch(login(auth))
       blogService.setToken(auth.token)
       window.localStorage.setItem('loggedUser', JSON.stringify(auth))
       dispatch(setNotification({ message: 'correctly logged in', tone: 'good' }))
@@ -69,9 +68,6 @@ const Login = ({ setUser }) => {
   )
 }
 
-Login.propTypes = {
-  setUser: PropTypes.func.isRequired
-}
 Login.displayName = 'Login'
 
 export default Login

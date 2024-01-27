@@ -6,7 +6,7 @@ import Togglable from './Togglable'
 import { setBlogs } from '../reducers/blogs'
 import { useDispatch, useSelector } from 'react-redux'
 
-const Blogs = ({ user }) => {
+const Blogs = () => {
   const blogs = useSelector((state) => state.blogs)
   const blogFormRef = useRef()
   const dispatch = useDispatch()
@@ -14,8 +14,6 @@ const Blogs = ({ user }) => {
   useEffect(() => {
     blogService.getAll().then((blogs) => dispatch(setBlogs(blogs)))
   }, [])
-
-  console.log(blogs)
 
   if (!blogs) {
     return null
@@ -27,7 +25,6 @@ const Blogs = ({ user }) => {
         <Blog
           key={blog.id}
           blog={blog}
-          user={user}
           id="blog"
         />
       ))}

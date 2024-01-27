@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from '../reducers/notification'
 import { deleteBlog, updateBlog } from '../reducers/blogs'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog, user }) => {
+const Blog = ({ blog }) => {
+  const session = useSelector((state) => state.session)
   const [show, setShow] = useState(false)
   const dispatch = useDispatch()
 
@@ -38,7 +39,7 @@ const Blog = ({ blog, user }) => {
   }
 
   const DeleteButton = () => {
-    if (user.username !== blog.user.username) {
+    if (session.username !== blog.user.username) {
       return null
     } else {
       return <button onClick={() => deleteBlogHadle(blog)}>delete</button>
@@ -65,7 +66,7 @@ const Blog = ({ blog, user }) => {
           onClick={() => {
             setShow(!show)
           }}
-          id="delete-blog"
+          id="show-blog"
         >
           Hide
         </button>{' '}
