@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux'
 const App = () => {
   const [user, setUser] = useState(null)
   const dispatch = useDispatch()
-  const notification = useSelector((state) => state)
+  const notification = useSelector((state) => state.notification)
 
   useEffect(() => {
     const timer = setTimeout(() => {

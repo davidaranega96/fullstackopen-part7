@@ -1,8 +1,37 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
+import { setNotification } from '../reducers/notification'
+import { deleteBlog, updateBlog } from '../reducers/blogs'
+import blogService from '../services/blogs'
 
-const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
+const Blog = ({ blog, user }) => {
   const [show, setShow] = useState(false)
+  const dispatch = useDispatch()
+
+  const deleteBlogHadle = async (blogToDelete) => {
+    try {
+      await blogService.deleteBlog(blogToDelete)
+      dispatch(deleteBlog(blogToDelete))
+    } catch (error) {
+      dispatch(setNotification({
+        message: error.response.data.error,
+        tone: 'bad',
+      }))
+    }
+  }
+
+  const updateBlogHandle = async (updatedBlog) => {
+    try {
+      await blogService.putBlog(updatedBlog)
+      dispatch(updateBlog(updatedBlog))
+    } catch (error) {
+      dispatch(setNotification({
+        message: error.response.data.error,
+        tone: 'bad',
+      }))
+    }
+  }
 
   const LikeButton = () => {
     return <button onClick={() => likeBlog()}>like</button>
@@ -12,7 +41,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
     if (user.username !== blog.user.username) {
       return null
     } else {
-      return <button onClick={() => deleteBlog(blog)}>delete</button>
+      return <button onClick={() => deleteBlogHadle(blog)}>delete</button>
     }
   }
 
@@ -21,7 +50,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
       ...blog,
       likes: blog.likes + 1,
     }
-    updateBlog(updatedBlog)
+    updateBlogHandle(updatedBlog)
   }
 
   if (show) {
@@ -56,9 +85,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
 }
 
 Blog.propTypes = {
-  blog: PropTypes.object.isRequired,
-  updateBlog: PropTypes.func.isRequired,
-  deleteBlog: PropTypes.func,
+  blog: PropTypes.object.isRequired
 }
 Blog.displayName = 'Blog'
 

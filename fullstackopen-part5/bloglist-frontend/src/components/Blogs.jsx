@@ -1,64 +1,24 @@
 import { useState, useRef, useEffect } from 'react'
-import PropTypes from 'prop-types'
 import blogService from '../services/blogs'
 import BlogForm from './BlogForm'
 import Blog from './Blog'
 import Togglable from './Togglable'
-import { setNotification } from '../reducers/notification'
-import { useDispatch } from 'react-redux'
+import { setBlogs } from '../reducers/blogs'
+import { useDispatch, useSelector } from 'react-redux'
 
 const Blogs = ({ user }) => {
-  const [blogs, setBlogs] = useState([])
+  const blogs = useSelector((state) => state.blogs)
   const blogFormRef = useRef()
   const dispatch = useDispatch()
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs))
+    blogService.getAll().then((blogs) => dispatch(setBlogs(blogs)))
   }, [])
 
-  useEffect(() => {
-    setBlogs((prevBlogs) => prevBlogs.sort((a, b) => b.likes - a.likes))
-  }, [blogs])
+  console.log(blogs)
 
-  const createBlog = async (newBlogObject) => {
-    try {
-      const response = await blogService.postBlog(newBlogObject)
-      setBlogs(blogs.concat(response.data))
-      dispatch(setNotification({ message: 'blog added', tone: 'good' }))
-      blogFormRef.current.toggleVisibility()
-    } catch (error) {
-      dispatch(setNotification({ message: 'error creating blog', tone: 'bad' }))
-    }
-  }
-
-  const deleteBlog = async (blogToDelete) => {
-    try {
-      await blogService.deleteBlog(blogToDelete)
-      setBlogs((prevBlogs) =>
-        prevBlogs.filter((blog) => blog.id !== blogToDelete.id)
-      )
-    } catch (error) {
-      dispatch(setNotification({
-        message: error.response.data.error,
-        tone: 'bad',
-      }))
-    }
-  }
-
-  const updateBlog = async (updatedBlog) => {
-    try {
-      await blogService.putBlog(updatedBlog)
-      setBlogs((prevBlogs) =>
-        prevBlogs.map((blog) =>
-          blog.id === updatedBlog.id ? updatedBlog : blog
-        )
-      )
-    } catch (error) {
-      dispatch(setNotification({
-        message: error.response.data.error,
-        tone: 'bad',
-      }))
-    }
+  if (!blogs) {
+    return null
   }
 
   return (
@@ -67,14 +27,12 @@ const Blogs = ({ user }) => {
         <Blog
           key={blog.id}
           blog={blog}
-          updateBlog={updateBlog}
-          deleteBlog={deleteBlog}
           user={user}
           id="blog"
         />
       ))}
       <Togglable buttonLabel="add blog" ref={blogFormRef}>
-        <BlogForm createBlog={createBlog} />
+        <BlogForm/>
       </Togglable>
     </div>
   )
