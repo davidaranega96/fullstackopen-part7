@@ -1,9 +1,10 @@
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
-const UserRow = ({ username, blogs }) => {
+const UserRow = ({ username, blogs, id }) => {
   return (
     <tr>
-      <td>{username}</td>
+      <td><Link to={`/users/${id}`}>{username}</Link></td>
       <td>{blogs}</td>
     </tr>
   )
@@ -21,15 +22,16 @@ const Users = () => {
   blogs.forEach((blog) => {
     const user = blog.user.name
     if (!userCounts[user]) {
-      userCounts[user] = 1
+      userCounts[user] = { nBlogs: 1, id: blog.user.id }
     } else {
-      userCounts[user]++
+      userCounts[user].nBlogs++
     }
   })
 
   const users = Object.keys(userCounts).map((user) => ({
     username: user,
-    blogs: userCounts[user],
+    blogs: userCounts[user].nBlogs,
+    id: userCounts[user].id
   }))
 
 
@@ -45,7 +47,7 @@ const Users = () => {
         </thead>
         <tbody>
           {users.map((user) => (
-            <UserRow username={user.username} blogs={user.blogs} key={user.username} />
+            <UserRow username={user.username} blogs={user.blogs} key={user.id} id={user.id} />
           ))}
         </tbody>
       </table>

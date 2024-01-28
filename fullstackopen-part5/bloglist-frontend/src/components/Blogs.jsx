@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import BlogForm from './BlogForm'
-import Blog from './Blog'
+import Blog from './blog/Blog'
 import Togglable from './Togglable'
 import { useSelector } from 'react-redux'
 

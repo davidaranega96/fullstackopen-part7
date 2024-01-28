@@ -9,10 +9,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import { logout } from './reducers/session'
 import { setBlogs } from './reducers/blogs'
 import blogService from './services/blogs'
+import usersService from './services/users'
 import {
   BrowserRouter as Router,
   Routes, Route
 } from 'react-router-dom'
+import User from './components/User'
+import { setUsers } from './reducers/users'
+import BlogView from './components/blog/BlogView'
 
 const App = () => {
   const session = useSelector((state) => state.session)
@@ -28,6 +32,7 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then((blogs) => dispatch(setBlogs(blogs)))
+    usersService.getAll().then((users) => dispatch(setUsers(users)))
   }, [])
 
   const handleLogout = () => {
@@ -51,6 +56,8 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Blogs />} />
         <Route path='/users' element={<Users />} />
+        <Route path='/users/:id' element={<User />} />
+        <Route path='/blogs/:id' element={<BlogView />} />
       </Routes>
     </Router>
   )
