@@ -6,7 +6,6 @@ import Notification from './components/Notification'
 import Users from './components/Users'
 import { clearNotification } from './reducers/notification'
 import { useSelector, useDispatch } from 'react-redux'
-import { logout } from './reducers/session'
 import { setBlogs } from './reducers/blogs'
 import blogService from './services/blogs'
 import usersService from './services/users'
@@ -35,23 +34,12 @@ const App = () => {
     usersService.getAll().then((users) => dispatch(setUsers(users)))
   }, [])
 
-  const handleLogout = () => {
-    dispatch(logout(null))
-    window.localStorage.removeItem('loggedUser')
-  }
-
   return (
     <Router>
       <Notification notification={notification} />
       <NavBar />
       <h2>blogs</h2>
-      {!session && <Login />}
-      {session && (
-        <div>
-          logged in as {session.name}{' '}
-          <button onClick={handleLogout}>logout</button>
-        </div>
-      )}
+      {!session && (<div>You are not logged in <Login /></div>)}
 
       <Routes>
         <Route path='/' element={<Blogs />} />
