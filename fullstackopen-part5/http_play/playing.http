@@ -5,19 +5,36 @@ POST http://localhost:3000/api/users HTTP/1.1
 Content-Type: application/json
 
 {
-    "username": "test",
-    "name": "test",
+    "username": "commentsuser",
+    "name": "David",
     "password": "1234"
 }
+
+### Getting blogs
+GET http://localhost:3000/api/blogs HTTP/1.1
 
 ### Trying to log in
 POST http://localhost:3000/api/login HTTP/1.1
 Content-Type: application/json
 
 {
-    "username": "test",
+    "username": "commentsuser",
     "password": "1234"
 }
 
 ### Getting the users list
 GET http://localhost:3000/api/users HTTP/1.1
+
+### Posting a comment
+POST http://localhost:3000/api/comments HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNvbW1lbnRzdXNlciIsImlkIjoiNjViODI3YjAxMTE1YjZiMmI3NzRkNWZhIiwiaWF0IjoxNzA2NTY3NjAzfQ.FFgrzDvr8TYKHy2jmqMQXgfQqXMfltkyG8eAx1Gn6OY
+
+{
+    "content": "testing a comment",
+    "blogId": "65b685afb551e35cf7680b84"
+}
+
+
+### Getting comments
+GET http://localhost:3000/api/comments/65bbfb1f27f0d91b40adcf26 HTTP/1.1
