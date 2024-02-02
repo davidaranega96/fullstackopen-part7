@@ -19,6 +19,25 @@ commentsRouter.get('/:id', async (request, response, next) => {
   }
 })
 
+commentsRouter.get('', async (request, response, next) => {
+  try {
+    const blogId = request.body.blogId || null
+    const userId = request.body.userId || null
+    const query = {}
+    if (blogId) {
+      query.blog = blogId
+    }
+    if (userId) {
+      query.user = userId
+    }
+    console.log(query)
+    const comments = await Comment.find(query)
+    response.json(comments)
+  } catch (error) {
+    next(error)
+  }
+})
+
 commentsRouter.post('', async (request, response, next) => {
   console.log('Trying to post a comment...')
   try {

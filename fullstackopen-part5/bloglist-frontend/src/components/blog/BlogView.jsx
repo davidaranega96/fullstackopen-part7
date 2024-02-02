@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import LikeBlogButton from './LikeBlogButton'
+import Comments from '../Comments'
 
 const BlogView = () => {
   const id = useParams().id
@@ -18,6 +19,7 @@ const BlogView = () => {
       <a href={blog.url}>{blog.url}</a><br />
       likes: {blog.likes} <LikeBlogButton blog={blog} /><br />
       added by {blog.user.name}
+      <Comments blogId={blog.id} />
     </div>
   )
 }

@@ -31,10 +31,18 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNvbW1lbnRzdXNlciIsImlkIjoiNjViODI3YjAxMTE1YjZiMmI3NzRkNWZhIiwiaWF0IjoxNzA2NTY3NjAzfQ.FFgrzDvr8TYKHy2jmqMQXgfQqXMfltkyG8eAx1Gn6OY
 
 {
-    "content": "testing a comment",
-    "blogId": "65b685afb551e35cf7680b84"
+    "content": "testing a new second comment",
+    "blogId": "65b69a25b551e35cf7680c05"
 }
 
 
-### Getting comments
-GET http://localhost:3000/api/comments/65bbfb1f27f0d91b40adcf26 HTTP/1.1
+### Getting single comments
+GET http://localhost:3000/api/comments/65b69a25b551e35cf7680c05 HTTP/1.1
+
+###Getting all the comments
+GET http://localhost:3000/api/comments HTTP/1.1
+Content-Type: application/json 
+
+{
+    "userId": "65b827b01115b6b2b774d5fa"
+}
