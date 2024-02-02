@@ -21,8 +21,8 @@ commentsRouter.get('/:id', async (request, response, next) => {
 
 commentsRouter.get('', async (request, response, next) => {
   try {
-    const blogId = request.body.blogId || null
-    const userId = request.body.userId || null
+    const { blogId, userId } = request.query
+
     const query = {}
     if (blogId) {
       query.blog = blogId
@@ -30,7 +30,6 @@ commentsRouter.get('', async (request, response, next) => {
     if (userId) {
       query.user = userId
     }
-    console.log(query)
     const comments = await Comment.find(query)
     response.json(comments)
   } catch (error) {

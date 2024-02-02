@@ -4,10 +4,7 @@ const baseUrl = 'http://localhost:3000/api/comments'
 let token = null
 
 const getBlogComments = async ({ blogId }) => {
-  console.log(blogId)
-  const blogUrl = `${baseUrl}/${blogId}`
-  console.log(blogUrl)
-  const response = await axios.get(blogUrl)
+  const response = await axios.get(baseUrl, { params: { blogId } })
   return response.data
 }
 

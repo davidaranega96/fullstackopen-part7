@@ -40,9 +40,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNvb
 GET http://localhost:3000/api/comments/65b69a25b551e35cf7680c05 HTTP/1.1
 
 ###Getting all the comments
-GET http://localhost:3000/api/comments HTTP/1.1
-Content-Type: application/json 
-
-{
-    "userId": "65b827b01115b6b2b774d5fa"
-}
+GET http://localhost:3000/api/comments?blogId=65b69a25b551e35cf7680c05 HTTP/1.1
