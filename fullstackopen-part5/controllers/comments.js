@@ -52,6 +52,7 @@ commentsRouter.post('', async (request, response, next) => {
       blog: request.body.blogId,
       user: decodedToken.id,
     }
+    console.log(newComment)
     const comment = new Comment(newComment)
     const savedComment = await comment.save()
     await savedComment.populate('user', { name: 1, username: 1, id: 1 })

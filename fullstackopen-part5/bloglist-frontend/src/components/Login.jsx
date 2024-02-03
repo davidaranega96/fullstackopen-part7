@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import Togglable from './Togglable'
 import loginService from '../services/login'
-import blogService from '../services/blogs'
+import session from '../services/session'
 import { setNotification } from '../reducers/notification'
 import { useDispatch } from 'react-redux'
 import { login } from '../reducers/session'
@@ -16,7 +16,7 @@ const Login = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       dispatch(login(user))
-      blogService.setToken(user.token)
+      session.setToken(user.token)
     }
   }, [])
 
@@ -25,7 +25,7 @@ const Login = () => {
     const auth = await loginService.login({ username, password })
     if (auth) {
       dispatch(login(auth))
-      blogService.setToken(auth.token)
+      session.setToken(auth.token)
       window.localStorage.setItem('loggedUser', JSON.stringify(auth))
       dispatch(setNotification({ message: 'correctly logged in', tone: 'good' }))
       setPassword('')

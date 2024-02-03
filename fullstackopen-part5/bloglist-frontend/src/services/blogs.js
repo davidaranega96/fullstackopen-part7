@@ -1,10 +1,6 @@
 import axios from 'axios'
+import session from './session'
 const baseUrl = 'http://localhost:3000/api/blogs'
-
-let token = null
-const setToken = (newToken) => {
-  token = `Bearer ${newToken}`
-}
 
 const getAll = async () => {
   const response = await axios.get(baseUrl)
@@ -12,6 +8,7 @@ const getAll = async () => {
 }
 
 const postBlog = async (blog) => {
+  const token = session.getToken()
   const config = {
     headers: { Authorization: token },
   }
@@ -31,6 +28,7 @@ const putBlog = async (blog) => {
 }
 
 const deleteBlog = async (blog) => {
+  const token = session.getToken()
   const config = {
     headers: { Authorization: token },
   }
@@ -38,4 +36,4 @@ const deleteBlog = async (blog) => {
   return await axios.delete(url, config)
 }
 
-export default { getAll, setToken, postBlog, putBlog, deleteBlog }
+export default { getAll, postBlog, putBlog, deleteBlog }
