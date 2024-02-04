@@ -35,19 +35,18 @@ const App = () => {
   }, [])
 
   return (
-    <Router>
-      <Notification notification={notification} />
-      <NavBar />
-      <h2>blogs</h2>
-      {!session && (<div>You are not logged in <Login /></div>)}
-
-      <Routes>
-        <Route path='/' element={<Blogs />} />
-        <Route path='/users' element={<Users />} />
-        <Route path='/users/:id' element={<User />} />
-        <Route path='/blogs/:id' element={<BlogView />} />
-      </Routes>
-    </Router>
+    <div className='container'>
+      <Router>
+        <Notification notification={notification} />
+        <NavBar />
+        <Routes>
+          <Route path='/' element={<Blogs />} />
+          <Route path='/users' element={<Users />} />
+          <Route path='/users/:id' element={<User />} />
+          <Route path='/blogs/:id' element={<BlogView />} />
+          <Route path='/login' element={<Login />}/>
+        </Routes>
+      </Router></div>
   )
 }
 
